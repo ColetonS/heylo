@@ -1,21 +1,17 @@
 import React from 'react';
 import './App.css';
-import Auth from '../src/components/Auth/Auth'
-import Dashboard from '../src/components/Dashboard/Dashboard'
-import Form from '../src/components/Form/Form'
 import Nav from '../src/components/Nav/Nav'
-import Post from '../src/components/Post/Post'
+import routes from './routes'
+import { withRouter } from 'react-router-dom'
 
-function App() {
+
+function App(props) {
   return (
     <div className="App">
-      <Auth />
-      <Dashboard />
-      <Form />
-      <Nav />
-      <Post />
+      {(props.location.pathname !== '/') ? <Nav /> : <></>}
+      {routes}
     </div>
   );
 }
 
-export default App;
+export default withRouter(App);
