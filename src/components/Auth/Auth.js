@@ -1,7 +1,9 @@
 import React, {Component} from 'react'
 import axios from 'axios'
+import { connect } from 'react-redux'
+import { setUser } from '../../ducks/reducer'
 
-export default class Auth extends Component {
+class Auth extends Component {
     constructor() {
         super()
         
@@ -12,7 +14,6 @@ export default class Auth extends Component {
     }
 
     handleChange(e, key) {
-        console.log(this.state)
         this.setState({
             [key]: e.target.value
         })
@@ -23,7 +24,8 @@ export default class Auth extends Component {
         axios
             .post('./api/auth/register', {username, password})
             .then(res => {
-                console.log(res.data.user)
+                const { id, username, profile_pic } = res.data.user
+                this.props.setUser({ id, username, profile_pic })
                 this.props.history.push('/dashboard')
             })
             .catch(() => {
@@ -35,7 +37,8 @@ export default class Auth extends Component {
         const { usernameInput: username, passwordInput: password } = this.state
         axios.post('./api/auth/login', {username, password})
         .then(res => {
-            console.log(res.data.user)
+            const { id, username, profile_pic } = res.data.user
+            this.props.setUser({ id, username, profile_pic })
             this.props.history.push('/dashboard')
         })
         .catch(() => {
@@ -59,3 +62,13 @@ export default class Auth extends Component {
     }
     
 }
+
+function mapStateToProps(reduxState) {
+    const { id, username, profile_pic } = reduxState
+    return { id, username, profile_pic }
+}
+
+export default connect(
+    mapStateToProps,
+    { setUser }
+)(Auth)
