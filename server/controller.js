@@ -24,5 +24,29 @@ module.exports = {
         catch(err) {
             res.status(500).send(`Error in register method: ${err}`)
         }
+    },
+    login: async (req, res) => {
+        try {
+            const db = req.app.get('db')
+            const {username, password} = req.body
+            const user = await db.get_user([username])
+            if (user.length === 0) {
+                return res.status(401).send({message: 'User not found'})
+            }
+            const result = bcrypt.compareSync(password, user[0].password)
+            if (result) {
+                delete user[0].password
+                req.session.user = user[0]
+                return res.status(200).send({
+                    message: 'Logged in',
+                    user: req.session.user,
+                    loggedIn: true
+                })
+            }
+            return res.status(401).send({message: 'Incorrect password'})
+        }
+        catch(err) {
+            res.status(500).send(`Error in login method: ${err}`)
+        }
     }
 }

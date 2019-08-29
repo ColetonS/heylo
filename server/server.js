@@ -18,6 +18,7 @@ app.use(session({
 }))
 
 app.post('/api/auth/register', ctrl.register)
+app.post('/api/auth/login', ctrl.login)
 
 massive(CONNECTION_STRING).then(db => {
     app.set('db', db)
