@@ -70,6 +70,10 @@ module.exports = {
           const { search } = req.query
           const posts = await db.get_by_title_not_user([id, `%${search}%`])
           res.status(200).send(posts)
+      } else {
+        console.log('fourth one')
+        const posts = await db.get_all_posts()
+        res.status(200).send(posts)
       }
     } catch (err) {
       res.status(500).send(`Error in searching by title: ${err}`);
