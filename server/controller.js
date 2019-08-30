@@ -54,7 +54,7 @@ module.exports = {
     });
   },
   getPost: async (req, res) => {
-    console.log(req.query, req.params);
+    // console.log(req.query, req.params);
     try {
       const db = req.app.get("db");
       if (req.query.userposts !== "false" && req.query.search !== "") {
@@ -63,7 +63,13 @@ module.exports = {
       } else if (req.query.userposts === "false" && req.query.search === "") {
         const { id } = req.params;
         const posts = await db.get_not_user_posts([id]);
-        res.send(posts);
+        res.status(200).send(posts);
+      } else if (req.query.userposts === 'false' && req.query.search !== '') {
+          console.log('third one', req.params, req.query)
+          const { id } = req.params
+          const { search } = req.query
+          const posts = await db.get_by_title_not_user([id, `%${search}%`])
+          res.status(200).send(posts)
       }
     } catch (err) {
       res.status(500).send(`Error in searching by title: ${err}`);
