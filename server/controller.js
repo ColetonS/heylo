@@ -48,5 +48,11 @@ module.exports = {
         catch(err) {
             res.status(500).send(`Error in login method: ${err}`)
         }
+    },
+    getAllPosts: (req, res) => {
+        const db = req.app.get('db')
+        db.get_all_posts().then(posts => {
+            res.status(200).send(posts)
+        })
     }
 }
