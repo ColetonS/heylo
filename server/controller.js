@@ -105,5 +105,9 @@ module.exports = {
     catch(err) {
       res.status(500).send(`Error in adding post: ${err}`)
     }
+  },
+  logout: (req, res) => {
+    req.session.destroy()
+    res.status(200).send({message: 'Logged out'})
   }
 };

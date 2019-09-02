@@ -85,7 +85,6 @@ class Dashboard extends Component {
           <div>
             <h2>Posts</h2>
             {this.state.allPosts.map(post => {
-              console.log(post)
               return (
                 <Link to={`/post/${post.id}`}
                   // to={{ 
