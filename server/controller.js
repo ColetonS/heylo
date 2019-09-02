@@ -89,5 +89,21 @@ module.exports = {
     catch(err) {
       res.status(500).send(`Error in getting post: ${err}`)
     }
+  },
+  addPost: async (req, res) => {
+    try {
+      const db = req.app.get('db')
+      const author_id = req.session.user.id
+      // console.log('req.body', req.body)
+      // console.log('req.session', req.session)
+      const { title, img, content } = req.body
+      const newPost = await db.insert_post({author_id, title, img, content})
+      // console.log('newPost', newPost)
+      res.status(200).send(newPost)
+
+    }
+    catch(err) {
+      res.status(500).send(`Error in adding post: ${err}`)
+    }
   }
 };
