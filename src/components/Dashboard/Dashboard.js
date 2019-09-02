@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import './Dashboard.scss'
+import Post from '../Post/Post'
 
 class Dashboard extends Component {
   constructor() {
@@ -35,25 +38,27 @@ class Dashboard extends Component {
 
   searchPosts = () => {
     // console.log(this.state)
-    axios.get(`/api/posts/${this.props.id}?search=${this.state.searchInput}&userposts=${this.state.userPostsShown}`)
-    .then(res => {
-      this.setState({
-        allPosts: res.data
-      })
-    })
-  }
+    axios
+      .get(
+        `/api/posts/${this.props.id}?search=${this.state.searchInput}&userposts=${this.state.userPostsShown}`
+      )
+      .then(res => {
+        this.setState({
+          allPosts: res.data
+        });
+      });
+  };
 
   resetSearch = () => {
-    axios.get(`/api/posts`)
-    .then(res => {
-      console.log(this.state)
+    axios.get(`/api/posts`).then(res => {
+      console.log(this.state);
       this.setState({
-        searchInput: '',
+        searchInput: "",
         userPostsShown: true,
         allPosts: res.data
-      })
-    })
-  }
+      });
+    });
+  };
 
   render() {
     return (
@@ -80,12 +85,19 @@ class Dashboard extends Component {
           <div>
             <h2>Posts</h2>
             {this.state.allPosts.map(post => {
+              console.log(post)
               return (
-                <div>
-                  <h3>{post.title}</h3>
-                  <h4>{post.username}</h4>
-                  <img src={post.profile_pic} alt="post-pic" />
-                </div>
+                <Link to={`/post/${post.id}`}
+                  // to={{ 
+                  // pathname: `/post/${post.id}`,
+                  // state: post.id }} 
+                  key={post.id}>
+                  <div className='post'>
+                    <h3>{post.title}</h3>
+                    <h4>{post.username}</h4>
+                    <img src={post.profile_pic} alt="post-pic" />
+                  </div>
+                </Link>
               );
             })}
           </div>

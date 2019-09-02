@@ -78,5 +78,16 @@ module.exports = {
     } catch (err) {
       res.status(500).send(`Error in searching by title: ${err}`);
     }
+  },
+  getSinglePost: async (req, res) => {
+    try {
+      const db = req.app.get('db')
+      const { id }  = req.params
+      const post = await db.get_single_post([id])
+      res.status(200).send(post)
+    }
+    catch(err) {
+      res.status(500).send(`Error in getting post: ${err}`)
+    }
   }
 };
