@@ -43,6 +43,18 @@ class Dashboard extends Component {
     })
   }
 
+  resetSearch = () => {
+    axios.get(`/api/posts`)
+    .then(res => {
+      console.log(this.state)
+      this.setState({
+        searchInput: '',
+        userPostsShown: true,
+        allPosts: res.data
+      })
+    })
+  }
+
   render() {
     return (
       <div>
@@ -51,11 +63,12 @@ class Dashboard extends Component {
             onChange={e => this.handleChange(e, "searchInput")}
             type="text"
             placeholder="search by title"
+            value={this.state.searchInput}
           />
         </div>
         <div>
           <button onClick={this.searchPosts}>Search</button>
-          <button>Reset</button>
+          <button onClick={this.resetSearch}>Reset</button>
           <div>
             <input
               type="checkbox"
