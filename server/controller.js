@@ -119,5 +119,19 @@ module.exports = {
     catch(err) {
       res.status(500).send(`Error in searching posts by user: ${err}`)
     }
+  },
+  updateUsername: async (req, res) => {
+    try {
+      // console.log(req.body)
+      // console.log(req.params)
+      const db = req.app.get('db')
+      const { username } = req.body
+      const { id } = req.params
+      const updatedUsername = await db.update_username({id, username})
+      res.status(200).send(updatedUsername)
+    }
+    catch(err) {
+      res.status(500).send(`Error in updating username: ${err}`)
+    }
   }
 };

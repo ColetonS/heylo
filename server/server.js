@@ -25,6 +25,7 @@ app.get('/api/posts/:id', ctrl.getPost)
 app.get('/api/posts/post/:id', ctrl.getSinglePost)
 app.delete('/api/auth/logout', ctrl.logout)
 app.get('/api/posts/user/:id', ctrl.getPostByUser)
+app.put('/api/users/:id', ctrl.updateUsername)
 
 massive(CONNECTION_STRING).then(db => {
     app.set('db', db)
