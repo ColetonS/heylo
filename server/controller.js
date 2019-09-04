@@ -109,5 +109,15 @@ module.exports = {
   logout: (req, res) => {
     req.session.destroy()
     res.status(200).send({message: 'Logged out'})
+  },
+  getPostByUser: async (req, res) => {
+    try {
+      const db = req.app.get('db')
+      const posts = await db.get_post_by_username([`%${req.query.search}%`])
+      res.status(200).send(posts)
+    }
+    catch(err) {
+      res.status(500).send(`Error in searching posts by user: ${err}`)
+    }
   }
 };

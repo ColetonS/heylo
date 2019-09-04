@@ -3,7 +3,6 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import './Dashboard.scss'
-import Post from '../Post/Post'
 
 class Dashboard extends Component {
   constructor() {
